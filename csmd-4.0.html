@@ -1,0 +1,5120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>CSMD:  the Core Scientific Metadata Model</title>
+      <link href="base.css" rel="stylesheet" type="text/css"/>
+   </head>
+   <body>
+      <div class="title">
+        <h1>CSMD:  the Core Scientific Metadata Model</h1>
+        <dl>
+            <dt>IRI:</dt>
+            <dd>http://purl.org/net/CSMD/</dd>
+         </dl>
+        <dl>
+            <dt>Date:</dt>
+            <dd>28/03/2013</dd>
+            <dt>Current version:</dt>
+            <dd>4.0</dd>
+            <dt>Previous version:</dt>
+            <dd/>
+         </dl>
+        <dl>
+            <dt>Authors:</dt>
+            <dd>Brian Matthews, STFC</dd>
+            <dt>Contributors:</dt>
+            <dd>Steve Fisher, STFC</dd>
+         </dl>
+        <div class="copyright">
+            <p>This work is distributed under a Creative Commons Attribution License
+            (http://creativecommons.org/licenses/by/3.0/).</p>
+        </div>
+      </div>
+      <hr/>
+      <h2>Abstract</h2>
+      <p>CSMD, the Core Scientific MetaData model, is an model of metadata to capture a description
+        of Scientific "activities" (e.g. experiments, observations, simulations etc) which are characterised 
+        by an event where the application of resources (e.g. equipment, instruments) to a subject item 
+        (e.g. a chemical, geological or materials sample or biological specimin) causes a signal which is detected via sensors, and results in the 
+        the collection of data.   </p>
+      <p>The CSMD is currently used largely within the context of large-scale scientific
+        facilities (e.g. Photon and Neutron Sources) and has some characterisitics which are specialised to those contexts. 
+        However, the model is intended to have a general applciation and thus these features are kept to a minumum.</p>
+				
+	  
+		    <h2>A metadata model for Facilities Science</h2>  
+
+      <p>The Core Scientific Metadata Model (CSMD) is a metadata model oriented towards 
+facilities science which has been developed at STFC over the last 12 years; for 
+earlier work see 
+<a href="#SufiandMatthews2004" shape="rect">[Sufi and Matthews 2004]</a>
+         <a href="#SufiandMatthews2005" shape="rect">[Sufi and Matthews 2005]</a> 
+         <a href="#MatthewsBetal2009" shape="rect">[Matthews, B., et. al 2009]</a>.  
+The CSMD is being used as the core metadata model within the data management 
+infrastructure which is being developed for the large scale scientific facilities 
+supported by STFC including the ISIS Neutron Source and the Diamond Light Source, 
+and now being used across the PaN-Data consortium and elsewhere. 
+It has been the result of an analysis of science practice over a number of years 
+and a number of projects to allow the user to manage their own data, and have 
+access to other interesting data.  
+</p>
+
+      <p>
+The currently version is CSMD v.4.0, and the ICAT data catalogue is 
+based on this version, though the database schema of ICAT has a number 
+of modifications and additions to accommodate the practical implementation of the database.
+</p>
+
+      <p>The model is intended to capture high level information about investigations 
+undertaken at facilities and the data that they produce.  
+However, it is designed to be generic across scientific disciplines and has 
+application beyond facilities science, particularly in the "structural sciences" 
+(such as chemistry, material science, earth science, and biochemistry) which are 
+concerned with the molecular structure of substances, and within which systematic 
+experimental analyses are undertaken on material samples.
+</p>
+      <h2>The core metadata model </h2>
+
+      <p>
+CSMD is organised around the notion of Studies, a study being a body of 
+scientific work on a particu-lar subject of interest.  
+During a study, a scientist would perform a number of activities 
+e.g. experiments, observations, measurements and simulations. 
+Results from these activities usually run through different stages: 
+the collection of raw data, the generation of analysed or derived data 
+through the application of software tools, and end results. 
+Data should be grouped accordingly, and associated with the appropriate 
+experimental parameters. 
+Not all information captured in specific metadata schemas would be used to 
+search for this data or distinguish one data set from another, 
+giving the possibility to select special parameters.  
+The CSMD is designed to be a common general format/standard for 
+Scientific Studies and their associated data holdings.
+</p>
+      <p>Thus this model:</p>
+      <ul>
+         <li>Forms a specification for the types of metadata which should be captured during Scientific Studies.</li>
+         <li>Allows citation, collaboration, exploitation and integration of information on scientific studies.</li>
+         <li>Allows easy integration of distributed heterogeneous metadata systems into a homogeneous (albeit virtual) platform.</li>
+      </ul>
+      <p>The CSMD has been developed to be a core system which is extensible and 
+can be specialised to particular scientific domains, so it does not make 
+assumptions about the specific terminology of the domain. 
+</p>
+
+      <p>The use of the CSMD for facilities is focused on capturing the 
+activities associated with the facilities science lifecycle as detailed in 
+<a href="#PaNData-ODI6.1" shape="rect">[PaNData-ODI D6.1]</a>, which generically is called an Investigation .   
+Thus the Investigation concept represents those activities and research 
+outputs associated with one approved application for use of the facilities.   
+In practise, this may involve a number of visits to use a number of instruments, 
+analysing a number of samples and generating a number of resultant data sets. 
+</p> 
+      <p>The model thus defines a hierarchical model of the structure of scientific 
+research around studies and investigations, with their associated information, 
+and also a generic model of the organisation of data sets into collections and files.  
+Specific data sets can be associated with the appropriate experimental parameters, 
+and details of the files holding the actual data, including their location for linking.  
+This provides a detailed description of the study, although not all information captured 
+in specific metadata schemas would be used to search for this data or distinguish one 
+data set from another. 
+</p>
+
+      <img src="CoreEntityModel.png" alt="UML Diagram of the main entities of the CSMD"/>
+      <br clear="none"/>
+      <p class="caption">Figure 1: Main entities of the CSMD</p>9
+
+<p>The metadata within the general structure is laid in a series of classes and subclasses. 
+We do not describe the whole model in detail for reasons of space, 
+but rather select some areas of particular interest. 
+The core entities of the CSMD for a study are given in Figure 1,
+and are summarised as follows.
+</p>
+ 	    <dl>
+         <dt>Study</dt>
+         <dd>The fundamental unit of the CSMD Model, collecting togehter an aggregation of associated scientific 
+	activities, data collecting events, artefacts (e.g. instruments, samples, dataset) and people.
+</dd>
+         <dt>Investigation</dt>
+         <dd>The fundamental unit of a <em>facility study</em>, associated with an accepted proposal for 
+	use of the facility to undertake a series of experiments.   
+	Attributes including a title, abstract, dates, and unique identifiers referencing the particular investigation.  
+</dd>
+         <dt>Facility</dt>
+         <dd>The facility which is used within the investigation, hosting the instrument and experiments.
+</dd>
+         <dt>Instrument</dt>
+         <dd>The instruments the investigation uses to carry out experiments.
+</dd>
+         <dt>Sample</dt>
+         <dd>Information on the material sample analysed within the investigation.  
+	The model has attributes for a sample's name, chemical formula and any associated 
+	special information, such as specific safety information on a toxic material.
+</dd>
+         <dt>Dataset</dt>
+         <dd>One or more datasets can be associated with an investigation, 
+	representing different runs or analyses on a sample.  
+	Initially a raw data set can be attached to the investigation, 
+	but subsequently, analysed datasets can also be added.  
+</dd>
+         <dt>Datafile</dt>
+         <dd>The CSMD takes a hierarchical view of data holdings, 
+	as data sets may contain other dataset as well as units of storage, typically datafiles.  
+	Each datafile has more detailed attributes, including its name, version, location, 
+	data format, creation and modification time, and fixity information such as a Checksum.
+</dd>
+         <dt>Parameter</dt>
+         <dd>Parameters describe measureable quantities associated with the investigation, 
+	such as temperature, pressure, or scattering angle, describing either the parameters 
+	of the sample, the environment the data was collected in, or the parameters being measured.  
+	Parameters can be associated at different levels: the investigation, the sample, dataset 
+	or the datafile, and have attributes for names, units, values, and allowable data ranges.  
+	These different type of parameter are all represented as subclasses of the general Parameter class. 
+	Parameters in CSMD are thus a very general data holding component (essentially a key-value pair table)/
+	Parameters thus provides a highly flexible and tailoroable mechanims for representing information 
+	about many type of study.
+</dd>
+         <dt>InvestigationUser</dt>
+         <dd>A user (represented as a separate entity, omitted for clarity) associated with a role in the investigation. 
+</dd>
+      </dl>
+
+      <p>Additionally, a number of other entities are defined to capture for example, 
+associated publications, data format used, sample types (representing the class of 
+material under analysis, of which the sample is a particular instance), parameter types 
+(representing the classes of parameters of which the parameters are particular instances).
+</p>
+      <p>  
+Further entities capture specialist facility concepts, such as "shifts" 
+(representing a daily time period within which the experiment was undertaken) and "cycles" 
+(representing a period of weeks or months where the facility is in active operation 
+between "shutdown" periods of maintenance). 
+</p>
+      <p>
+A full UML class diagram of the model is given in Figure 2.
+</p>
+
+      <img src="CSMD4.0FullDomainModel.png" alt="UML Class Diagram for the CSMD"/>
+      <p class="caption">Figure 2: UML Class Diagram for the full CSMD</p>
+
+      <h2>OWL representation</h2> 
+
+      <p>We support this metadata model by providing a representation as an OWL ontology.  
+This allows us to represent metadata as RDF triples within triple stores 
+(or provide a triple based front end onto metadata databases such as ICAT via for 
+example a SPARQL endpoint.  We can also publish data about experiments into 
+Linked Open Data, furthering the publication, exchange and sharing of metadata 
+about facilities experiments, as well as its combination with other metadata items.  
+We give a sample of the OWL representation, for reasons of brevity.  
+The full model can be found on the ICAT Google Code site. 
+</p>
+
+      <p>The OWL representation has a base URI:   <tt>http://www.purl.org/net/CSMD/4.0#</tt>
+      </p>
+
+
+      <p>The OWL representation reflects the UML model closely.  
+Thus for each UML there is a corre-sponding OWL Class, as below (using RDF/XML notation):
+</p>
+    
+      <pre xml:space="preserve">   
+    &lt;!-- csmd:Investigation --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:Class rdf:about="csmd:Investigation"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;Investigation&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;An investigation or experiment&lt;/rdfs:comment&gt;<br clear="none"/>
+    &lt;/owl:Class&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;!-- csmd:Facility --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:Class rdf:about="csmd:Facility"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;Facility&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;An experimental facility&lt;/rdfs:comment&gt;<br clear="none"/>
+    &lt;/owl:Class&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;!-- csmd:Dataset --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:Class rdf:about="csmd:Dataset"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;Dataset&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;A collection of data files and part of an investiga-tion&lt;/rdfs:comment&gt;<br clear="none"/>
+    &lt;/owl:Class&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;!-- csmd:Datafile --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:Class rdf:about="csmd:Datafile"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;Datafile&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;A data file&lt;/rdfs:comment&gt;<br clear="none"/>
+    &lt;/owl:Class&gt;
+</pre>
+
+      <p>For each Class attribute in the UML model, there is a corresponding 
+OWL DatatypeProperty, conventionally named by prefixing the domain Class name 
+with the attribute name as in the below:
+</p>
+
+      <pre xml:space="preserve">
+    &lt;!-- csmd:investigation_startDate --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:DatatypeProperty rdf:about="csmd:investigation_startDate"&gt;<br clear="none"/>
+        &lt;rdf:type rdf:resource="&amp;owl;FunctionalProperty"/&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;investigation_startDate&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;The time at which the investiation was initiat-ed&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Investigation"/&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="&amp;xsd;dateTime"/&gt;<br clear="none"/>
+    &lt;/owl:DatatypeProperty&gt;<br clear="none"/>
+    <br clear="none"/>
+    &lt;!-- csmd:investigation_summary --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:DatatypeProperty rdf:about="csmd:investigation_summary"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;investigation_summary&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;Summary or abstract&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Investigation"/&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="&amp;xsd;string"/&gt;<br clear="none"/>
+    &lt;/owl:DatatypeProperty&gt;<br clear="none"/>
+    <br clear="none"/>
+    &lt;!-- csmd:investigation_title --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:DatatypeProperty rdf:about="csmd:investigation_title"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;investigation_title&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;Full title of the investigation&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Investigation"/&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="&amp;xsd;string"/&gt;<br clear="none"/>
+    &lt;/owl:DatatypeProperty&gt;<br clear="none"/>
+</pre>
+    
+
+      <p>Similarly, for each association in the UML model, there are two corresponding 
+OWL ObjectProperties which form a pair of inverse Properties , conventionally 
+named by prefixing the domain Class name with the range Class name.   
+This is because whilst the associations in UML are not directed, properties in OWL are.  
+This results for example in the below:
+</p>
+    
+      <pre xml:space="preserve">
+    &lt;!-- csmd:facility_instrument --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:ObjectProperty rdf:about="csmd:facility_instrument"&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;facility_instrument&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;An Instrument supported by a facility.&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Facility"/&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="csmd:Instrument"/&gt;<br clear="none"/>
+        &lt;owl:inverseOf rdf:resource="csmd:instrument_facility"/&gt;<br clear="none"/>
+    &lt;/owl:ObjectProperty&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;!-- csmd:instrument_facility --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:ObjectProperty rdf:about="csmd:instrument_facility"&gt;<br clear="none"/>
+        &lt;rdf:type rdf:resource="&amp;owl;FunctionalProperty"/&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;instrument_facility&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;The facility which has this instrument.&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="csmd:Facility"/&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Instrument"/&gt;<br clear="none"/>
+    &lt;/owl:ObjectProperty&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;!-- csmd:investigation_dataset --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:ObjectProperty rdf:about="csmd:investigation_dataset"&gt;<br clear="none"/>
+        &lt;rdf:type rdf:resource="&amp;owl;InverseFunctionalProperty"/&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;investigation_dataset&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;A data set which is the result of an investiga-tion&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="csmd:Dataset"/&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Investigation"/&gt;<br clear="none"/>
+    &lt;/owl:ObjectProperty&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;!-- csmd:dataset_investigation --&gt;<br clear="none"/>
+<br clear="none"/>
+    &lt;owl:ObjectProperty rdf:about="csmd:dataset_investigation"&gt;<br clear="none"/>
+        &lt;rdf:type rdf:resource="&amp;owl;FunctionalProperty"/&gt;<br clear="none"/>
+        &lt;rdfs:label&gt;dataset_investigation&lt;/rdfs:label&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:comment&gt;The investigation associated with an da-taset&lt;/rdfs:comment&gt;<br clear="none"/>
+        &lt;rdfs:domain rdf:resource="csmd:Dataset"/&gt;<br clear="none"/>
+        &lt;rdfs:range rdf:resource="csmd:Investigation"/&gt;<br clear="none"/>
+        &lt;owl:inverseOf rdf:resource="csmd:investigation_dataset"/&gt;<br clear="none"/>
+    &lt;/owl:ObjectProperty&gt;<br clear="none"/>
+</pre>
+    
+      <p>Note also that some object properties are declared as OWL Functional 
+(or inverseFunctional) properties; this reflects the cardinality constraints 
+of the UML model into the OWL model.
+</p>
+
+      <h2>Supporting Provenance</h2>
+
+      <p>In order to support provenance, we need to relate the model of facility 
+experiments encapsulated in the "data-centric" view expressed in the CSMD 
+with a notion of scientific activity, so that we can provide a notion of the 
+further processes and outputs involved with managing the data.  
+We relate the model with the general notion of a process given in the W3C Prov model <a href="#PROV-O" shape="rect">[PROV-O]</a>, 
+which gives a high level view of a process step as in Figure 3
+</p>
+
+ 
+      <img src="PROVOverviewDiagram.png"
+           alt="High level view of the structure of Prov records"/>
+      <br clear="none"/>
+      <p class="caption">Figure 3: High level view of the structure of Prov records</p>
+
+
+      <p>Thus the Prov model defines three general classes :</p>
+
+      <ul>
+         <li>
+            <b>Entities</b> are "physical, digital, conceptual, or other kinds of thing. ... Provenance 
+records can describe the provenance of entities, and an entity's provenance may refer to many other entities".  
+</li>
+         <li>
+            <b>Activities</b> are "how entities come into existence and how their attributes change to 
+become new entities. ... They are dynamic aspects of the world, such as actions, processes, etc".
+</li>
+         <li>
+            <b>Agent</b>  which take "a role in an activity such that the agent can be 
+assigned some degree of responsibility for the activity taking place. 
+An agent can be a person, a piece of software, an inanimate object, 
+an organization, or other entities that may be ascribed responsibility".
+</li>
+      </ul>
+      <p>Then the general properties relate these class instances together to represent 
+the relationships between entities and how they were processed by whom to form a 
+record of provenance.  Note that, in common with many approaches to representing 
+provenance, these relationships take the point of view of an historical record 
+of the origins of entities, asking the question "where does this entity come from", 
+so the arrows point from the future to the past.
+</p>
+      <p>In the CSMD model, Entities include datasets, datafiles, samples, and indeed, 
+investigations themselves as a conceptual object representing the entirety of the 
+experiment while the InvestigationUser and instruments are Agents.   
+We can add these relationships into the OWL model by making the appropriate 
+CSMD OWL classes subclasses of the PROV-O classes.
+</p>
+      <p>The provenance step for which we have the most immediate need is the 
+use of an analytic software package on datasets or specific data files, 
+to generate new datasets and datafiles.  
+Consequently, a new class Job has been added to CSMD to represent the 
+Activity (in the PROV sense) of running a software package on a set of 
+input data to derive a set of output data.   We represent this in UML as in Figure 4.
+</p>
+
+      <img src="JobModel.png" alt="Modelling jobs in CSMD"/>
+      <br clear="none"/>
+      <p class="caption">Figure 4: Modelling jobs in CSMD</p>
+
+      <p>Thus a Job is an Activity which is associated with a software application 
+as an Agent (again in the PROV-O sense) and takes a number of input data sets 
+and data files within those data sets as inputs, and outputs data files and 
+dataset as output.  These data set are themselves linked into the Investigation.    
+Thus inputDataSet and inputDataFile are associations which are specialisations of the 
+PROV-O uses property, and outputDataSet and outputDataFile are associations which are 
+specialisations of the PROV-O wasGeneratedBy property (with appropriate directionality).
+</p>
+
+      <h3>Generalising the Activity Model</h3>
+      <p>We can generalize this notion of Scientific Activity in the CSMD model to add a 
+general class of activities, and add other types of activity.   
+Thus we can add a "Run" activity to the CSMD representing the particular 
+activity of generating a dataset from a sample using an instrument (an agent), as in Figure 5.
+</p>
+
+      <img src="RunModel.png" alt="A Run model for CSMD"/>
+      <br clear="none"/>
+      <p class="caption">Figure 5: A Run model for CSMD</p>
+ 
+
+
+      <p>We would also relate the Investigation to the Run.  
+Adding a Run entity to the CSMD is not included within CSMD 4.0, 
+and is still under discussion as it not as yet accepted that this 
+adds to the current use of ICAT; however, it would make the model more 
+consistent in the representation of provenance.
+</p>
+
+      <h2>Description of classes and properties</h2>
+
+      <p>We give a complete description of the classes and  properties in the CSMD model. </p>
+					
+        <h3>Ontology Classes</h3> 
+        <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Application</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Application</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Some piece of software</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A data file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A data file format</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:DatafileParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>DatafileParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter associated with a data file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A collection of data files and part of an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:DatasetParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>DatasetParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter associated with a data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A type of data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An experimental facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An operating cycle within a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Used by a user within an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An investigation or experiment</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:InvestigationParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>InvestigationParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter associated with an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A type of investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Many to many relationship between investigation and user</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Job</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A run of an application with its related inputs and outputs</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Must be related to an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter associated with an entity</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter type with unique name and units</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:PermissibleStringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>PermissibleStringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Permissible value for string parameter types</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A publication</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:RelatedDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>RelatedDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Used to represent an arbitrary relationship between data files</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A sample to be used in an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:SampleParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>SampleParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter associated with a sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A sample to be used in an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A period of time related to an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>Study</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A study which may be related to an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Class Id</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Class Name:</td>
+               <td>User</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A user of the facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div> 
+        <h3>Data Properties</h3> 
+        <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:application_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>application_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Application</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name for the software - e.g. mantid</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:application_version</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>application_version</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Application</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_checksum</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_checksum</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Checksum of file represented as a string</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_datafileCreateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_datafileCreateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Date of creation of the actual file rather than storing the metadata</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_datafileModTime</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_datafileModTime</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Date of modification of the actual file rather than of the metadata</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A full description of the file contents</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The Digital Object Identifier associated with this data file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_fileSize</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_fileSize</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#long</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>File size expressed in bytes</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_location</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_location</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The logical location of the file - which may also be the physical location</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafile_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A name given to the file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileformat_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafileformat_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An informal description of the format</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileformat_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafileformat_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name identifying the format -e.g. "mp3" within the facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileformat_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafileformat_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Holds the underlying format - such as binary or text</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileformat_version</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datafileformat_version</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The version if needed.  The version code may be part of the basic name</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_complete</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_complete</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>May be set to true when all data files and parameters have been added to the data set. The precise meaning is facility dependent.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An informal description of the data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The Digital Object Identifier associated with this data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Time that the data set was last updated.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_location</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_location</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Identifies a location from which all the files of the data set might be accessed. It might be a directory</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name for the data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>dataset_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#date</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The time that a dataset is created.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datasettype_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datasettype_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A description of this data set type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datasettype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>datasettype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name identifying this data set type within the facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_daysUntilRelease</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facility_daysUntilRelease</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#integer</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The number of days before data is made freely available after collecting it.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facility_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A description of this facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_fullName</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facility_fullName</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The full name of the facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facility_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name identifying this facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_url</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facility_url</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A URL associated with this facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facilitycycle_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facilitycycle_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A description of this facility cycle</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facilitycycle_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facilitycycle_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#date</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>End of cycle</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facilitycycle_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facilitycycle_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name identifying this facility cycle within the facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facilitycycle_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>facilitycycle_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Start of cycle</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>instrument_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A description of this instrument</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_fullName</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>instrument_fullName</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The formal name of this instrument</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>instrument_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name identifying this instrument within the facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>instrument_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The type of the instrument - e.g. spectrometer
+        etc.  Also should refer to the technique (?)</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The Digital Object Identifier associated with this investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The latest date of change to the investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name for the investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_releaseDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_releaseDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#date</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A date when the data will be made freely available after an embargo period</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The time at which the investiation was initiated</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_summary</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_summary</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Summary or abstract</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_title</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_title</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Full title of the investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_visitId</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigation_visitId</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Identifier for the visit to which this investigation is related</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationtype_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigationtype_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A description of this type of investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationtype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigationtype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A short name identifying this type of investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationuser_role</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>investigationuser_role</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:keyword_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>keyword_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The name of the keyword</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_dateTimeValue</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parameter_dateTimeValue</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The value if the parameter is a date</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_error</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parameter_error</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#double</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The error of the numeric parameter</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_numericValue</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parameter_numericValue</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#double</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The value if the parameter is numeric</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_rangeBottom</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parameter_rangeBottom</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#double</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The minimum value of the numeric parameter that was observed during the measurement period</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_rangeTop</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parameter_rangeTop</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#double</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The maximum value of the numeric parameter that was observed during the measurement period</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_stringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parameter_stringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The value if the parameter is a string</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_applicableToDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_applicableToDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>If a parameter of this type may be applied to a data file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_applicableToDataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_applicableToDataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>If a parameter of this type may be applied to a data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_applicableToInvestigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_applicableToInvestigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>If a parameter of this type may be applied to an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_applicableToSample</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_applicableToSample</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>If a parameter of this type may be applied to a sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Description of the parameter type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_enforced</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_enforced</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>True if constraints are enforced</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_maximumNumericValue</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_maximumNumericValue</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#double</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_minimumNumericValue</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_minimumNumericValue</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#double</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The name of the parameter type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_units</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_units</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The name of the parameter type units</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_unitsFullName</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_unitsFullName</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The formal name of the parameter type units</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_valueType</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_valueType</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>enum with possible values: NUMERIC, STRING, DATE_AND_TIME</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_verified</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>parametertype_verified</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#boolean</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>If ordinary users are allowed to create their own parameter types this indicates that this one has been approved</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:permissiblestringvalue_value</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>permissiblestringvalue_value</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:PermissibleStringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The value of the string</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:publication_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>publication_doi</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The Digital Object Identifier associated with this publication</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:publication_fullReference</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>publication_fullReference</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A reference in the form to be used for citation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:publication_repository</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>publication_repository</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The name of a repository where the publication is held</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:publication_repositoryId</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>publication_repositoryId</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The id of the publication within the repository</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:publication_url</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>publication_url</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A URL from which the publication may be downloaded</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:relateddatafile_relation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>relateddatafile_relation</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Identifies the type of relationship between the two datafiles - e.g. "COPY"</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sample_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>sample_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sampletype_molecularFormula</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>sampletype_molecularFormula</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The formula written as a string -e.g. C2H6O2 for ethylene glycol</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sampletype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>sampletype_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Name of a type of sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sampletype_safetyInformation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>sampletype_safetyInformation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Any safety information related to this sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:shift_comment</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>shift_comment</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:shift_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>shift_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:shift_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>shift_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_description</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>study_description</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A description of the study and its purpose</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>study_endDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The end date of this study</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>study_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The name of the study</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>study_startDate</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#dateTime</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The start date of this study</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_status</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>study_status</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The status of the study. Possible values are: NEW, IN_PROGRESS, COMPLETE, CANCELLED</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:user_fullName</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>user_fullName</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Full name of a user - may include title</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:user_name</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name:</td>
+               <td>user_name</td>
+            </tr>
+            <tr>
+               <td class="field">Domain:</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Range:</td>
+               <td>http://www.w3.org/2001/XMLSchema#string</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The name of the user to match that provided by the authentication mechanism</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+        <h3>Object Properties</h3> 
+        <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:application_job</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>application_job</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Application</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:job_application</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_datafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafile_datafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:datafileformat_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafile_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:dataset_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The dataset which holds this file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_destDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafile_destDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:RelatedDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>the destination data file in a datafile-datafile relation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafile_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:DatafileParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Association of a datafile and a parameter
+        associated with that datafile</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafile_sourceDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafile_sourceDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:RelatedDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>the destination data file in a datafile-datafile relation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileformat_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafileformat_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Files with this format</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileformat_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafileformat_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:facility_datafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has defined this format</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datafileparameter_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datafileparameter_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:DatafileParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:datafile_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The associated data file</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>dataset_datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A data file within the dataset</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>dataset_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigation_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The investigation associated with an dataset</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>dataset_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:DatasetParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A Parameter associated with a Dataset</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>dataset_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:sample_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A Sample associated with a dataset</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:dataset_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>dataset_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:datasettype_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The type of a dataset</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datasetparameter_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datasetparameter_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:DatasetParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:dataset_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The associated data set</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datasettype_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datasettype_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A dataset which is of a given type.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:datasettype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>datasettype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:facility_datasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has defined this data set type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_datafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_datafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:DatafileFormat</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A datafile format supported by a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_datasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_datasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:DatasetType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The types of datasets supported by a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_facilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_facilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:facilitycycle_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A Facility cycle (period of facility availability) offered by a facility.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:instrument_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An Instrument supported by a facility.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigation_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An Investigation undertaken within a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_investigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_investigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigationtype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An Investigation Type supported by a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_parameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_parameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:parametertype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter type supported by a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facility_sampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facility_sampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:sampletype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A Sample type supported by a facility</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facilitycycle_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facilitycycle_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has this cycle</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:facilitycycle_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>facilitycycle_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigation_facilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>an investigation within a particular facility cycle</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:inputdatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>inputdatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>an input datafile of a job </td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:inputdataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>user_studiesinputdataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>an input dataset of a job </td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>instrument_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has this instrument</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_instrumentScientist</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>instrument_instrumentScientist</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:instrumentscientist_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An instrument scientist is a particular user with expertise on the instrument</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrument_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>instrument_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigation_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>an investigation which has be undertaken on an instrument</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:instrumentscientist_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>instrumentscientist_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility an investigation takes place within</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_facilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_facilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:FacilityCycle</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility cycle an investigation takes place in</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Instrument</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The instrument used in an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_investigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_investigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigationuser_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The user which contributes to an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:keyword_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A keyword associated with an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:InvestigationParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigationparameter_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A parameter associated with an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_publication</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_publication</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:publication_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A publication associated with an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:sample_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A sample used within an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_shift</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_shift</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:shift_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A shift in which the investifation took place.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_study</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_study</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:study_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>Association of a Study to an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigation_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigation_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:investigationtype_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The type of an investigation</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationparameter_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigationparameter_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:InvestigationParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The associated investigationThe associated investigation of a parameter</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationtype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigationtype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has defined this investigation type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationtype_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigationtype_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:InvestigationType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An investigation witha a particular type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationuser_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigationuser_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The investigation a user contributes to in a particular role</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:investigationuser_user</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>investigationuser_user</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:user_investigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:job_application</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>job_application</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Application</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A Software Application used to run a job</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:keyword_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>keyword_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Keyword</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The investigation to which this keyword applies</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:outputdatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>outputdatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>an output datafile of a job </td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:outputdataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>outputdataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Job</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>the output datasetof a job </td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parameter_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>parameter_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The type of the parameter</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>parametertype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has defined this data set type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:parametertype_permissiblestringvalue</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>parametertype_permissiblestringvalue</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:PermissibleStringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:permissiblestringvalue_type</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:permissiblestringvalue_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>permissiblestringvalue_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:PermissibleStringValue</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The parameter type to which this permissible string value applies</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:publication_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>publication_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Publication</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:relateddatafile_destDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>relateddatafile_destDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:RelatedDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:relateddatafile_sourceDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>relateddatafile_sourceDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:RelatedDatafile</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Datafile</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sample_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sample_dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Dataset</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A dataset related to a sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sample_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sample_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sample_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sample_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:SampleParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:sampleparameter_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>A Parameter associated with a sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sample_type</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sample_type</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:sampletype_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sampleparameter_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sampleparameter_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:SampleParameter</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The associated sample</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sampletype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sampletype_facility</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Facility</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The facility which has defined this sample type</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:sampletype_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>sampletype_sample</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:SampleType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Sample</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:shift_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>shift_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Shift</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>study_investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Investigation</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>An investigation in a study</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:study_user</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>study_user</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The user responsible for the study</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:user_investigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>user_investigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:InvestigationUser</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>csmd:user_study</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td>user_study</td>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:User</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Study</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:study_user</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td>The relationship between a user and a study
+        they contribute to.</td>
+            </tr>
+         </table>
+         <br/>
+      </div>
+      <div xmlns="">
+         <table>
+            <tr>
+               <td class="field">Property Id</td>
+               <td>http://www.purl.org/net/CSMD/4.0#parametertype_parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Property Name</td>
+               <td/>
+            </tr>
+            <tr>
+               <td class="field">Domain</td>
+               <td>csmd:ParameterType</td>
+            </tr>
+            <tr>
+               <td class="field">Range</td>
+               <td>csmd:Parameter</td>
+            </tr>
+            <tr>
+               <td class="field">Inverse of</td>
+               <td>csmd:parameter_type</td>
+            </tr>
+            <tr>
+               <td class="field">Description:</td>
+               <td/>
+            </tr>
+         </table>
+         <br/>
+      </div> 
+    
+      <h2>References</h2>
+
+      <dl>
+         <dt>
+            <a id="MatthewsBetal2009" shape="rect">[Matthews, B., et. al 2009]</a>
+         </dt>
+         <dd>Matthews, B., et. al. Using a Core Scientific Metadata Model in Large-Scale Facilities. 
+5th International Digital Curation Conference, London, UK, (2009)
+</dd>
+         <dt>
+            <a id="PROV-O" shape="rect">[PROV-O]</a>
+         </dt>
+         <dd>PROV-O: The PROV Ontology, W3C Recommendation 30 April 2013, 
+<a href="http://www.w3.org/TR/prov-o/" shape="rect">http://www.w3.org/TR/prov-o/</a>		
+         </dd>
+         <dt>
+            <a id="PaNData-ODID6.1" shape="rect">[PaNData-ODI D6.1]</a>
+         </dt>
+         <dd>Matthews, B. et al., Model of the data continuum in Photon and Neutron Facilities. 
+PaNdata ODI, Deliverable D6.1. (2012). 
+<a href="http://pan-data.eu/sites/pan-data.eu/files/PaNdataODI-D6.1.pdf"
+               shape="rect">http://pan-data.eu/sites/pan-data.eu/files/PaNdataODI-D6.1.pdf</a> 		
+         </dd>
+         <dt>
+            <a id="SufiandMatthews2004" shape="rect">[Sufi and Matthews 2004]</a>
+         </dt>
+         <dd>Sufi, S., Matthews, B. CCLRC Scientific Metadata Model: Version 2. 
+DL Technical Reports, DL-TR-2004-001, (2004). 
+<a href="http://epubs.cclrc.ac.uk/work-details?w=30324" shape="rect">http://epubs.cclrc.ac.uk/work-details?w=30324</a> 
+         </dd>
+         <dt>
+            <a id="SufiandMatthews2005" shape="rect">[Sufi and Matthews 2005]</a>
+         </dt>
+         <dd>Sufi, S., Matthews, B.  The CCLRC Scientific Metadata Model: 
+a metadata model for the exploitation of scientific studies and associated data. 
+In Contributions in Knowledge and Data Management in Grids, eds. Domenico Talia, 
+Angelos Bilas, Marios Dikaiakos, CoreGRID 3, Springer-Verlag, (2005).
+</dd>
+      </dl>		
+		
+    </body>
+</html>
